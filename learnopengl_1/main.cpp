@@ -9,8 +9,10 @@ unsigned int compileShader(std::string path, GLenum type);
 void createProgram(unsigned int vShader, unsigned int fShader);
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void render(double dt);
+void drawTriangle();
 
-unsigned int programs[1];
+unsigned int programs[2];
+GLuint VAOs[2];
 
 int main() {
     // Initialization
@@ -39,6 +41,10 @@ int main() {
         unsigned int fI = compileShader("main.frag", GL_FRAGMENT_SHADER);
         createProgram(vI, fI);
 
+        vI = compileShader("main.vert", GL_VERTEX_SHADER);
+        fI = compileShader("sec.frag", GL_FRAGMENT_SHADER);
+        createProgram(vI, fI);
+
         glDeleteShader(vI);
         glDeleteShader(fI);
     } catch (std::runtime_error &runtime_error) {
@@ -51,22 +57,29 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     /* Setup Triangle */
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+    float vertices[2][9] = {
+        {-0.9f, -0.5f, 0.0f,
+        -0.0f, -0.5f, 0.0f,
+        -0.45f, 0.5f, 0.0f},
+
+        {0.0f, -0.5f, 0.0f,
+        0.9f, -0.5f, 0.0f,
+        0.45f, 0.5f, 0.0f}
     };
 
-    unsigned int triangleVBO;
-    glGenBuffers(1, &triangleVBO);
-    // TODO: Left off at creating VAO
-    glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    GLuint VBOs[2];
+    glGenVertexArrays(2, VAOs);
+    glGenBuffers(2, VBOs);
+    for (int i = 0; i < 2; i++) {
+        glBindVertexArray(VAOs[i]);
+        glBindBuffer(GL_ARRAY_BUFFER, VBOs[i]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[i]), vertices[i], GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+    }
 
-
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     double lastTime = glfwGetTime(), currentTime = 0;
     double deltaTime = 0;
@@ -81,6 +94,7 @@ int main() {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+        glGetError();
     }
 
     glfwTerminate();
@@ -145,7 +159,15 @@ void render(double dt) {
     glClearColor(0.1f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(programs[0]);
-    glBindVertexArray()
+    drawTriangle();
+}
 
+void drawTriangle() {
+    glUseProgram(programs[0]);
+    glBindVertexArray(VAOs[0]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    glUseProgram(programs[1]);
+    glBindVertexArray(VAOs[1]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
