@@ -168,6 +168,8 @@ void drawTriangle() {
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glUseProgram(programs[1]);
+    int timeLocation = glGetUniformLocation(programs[1], "time");
+    glUniform1f(timeLocation, glfwGetTime());
     glBindVertexArray(VAOs[1]);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
