@@ -20,10 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23f994c9-b420-4334-874e-6d413478f433" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Shader.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Shader.h" afterDir="false" />
-    </list>
+    <list default="true" id="23f994c9-b420-4334-874e-6d413478f433" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,7 +84,7 @@
       <workItem from="1599107359136" duration="3918000" />
       <workItem from="1608099147745" duration="94000" />
       <workItem from="1608099256223" duration="30000" />
-      <workItem from="1608099299738" duration="3159000" />
+      <workItem from="1608099299738" duration="3392000" />
     </task>
     <servers />
   </component>
